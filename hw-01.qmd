@@ -1,26 +1,116 @@
 ---
 title: "HW 01"
-author: "INSERT YOUR NAME HERE"
+author: "Peter Yeh"
 format: html
 toc: true
 ---
 
+```{r label-libraries}
+# Install and load necessary libraries
+library(ggplot2)
+
+# install.packages("openintro")
+library(openintro)
+```
+
 ## 1 - Road traffic accidents in Edinburgh
 
 ```{r label-me-1}
-
+# install.packages(dsbox)
+# library(dsbox)
 ```
 
 ## 2 - NYC marathon winners
 
 ```{r label-me-2}
+# Generate dataset without NA values for time
+nyc_clean <- nyc_marathon[-which(is.na(nyc_marathon$time)),]
 
+# summary of data
+summary(nyc_clean)
+
+## Part A
+# Histogram
+nyc_hist <- ggplot(nyc_clean, aes(time)) + 
+  geom_histogram(bins = 30) +
+  ggtitle("Histogram Of Marathon Times")
+
+# Boxplot
+nyc_box <- ggplot(nyc_clean, aes(time)) + 
+  geom_boxplot() +
+  ggtitle("Boxplot Of Marathon Times") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.y = element_blank())
+
+# Plot both plots
+list(nyc_hist, nyc_box)
+
+# The histogram more readily shows that the marathon times are bimodal. The
+# boxplot more readily shows several statistics of the marathon times: minimum,
+# 25th percentile, median, 75th percentile, maximum, and outliers.
+
+## Part B
+# Boxplot
+ggplot(nyc_clean, aes(y = time, x = division, fill = division)) + 
+  geom_boxplot() +
+  ggtitle("Boxplot Of Marathon Times Between Divisions") +
+  scale_fill_manual(values = c("blue", "red"))  +
+  theme(axis.ticks.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank())
+
+# From the side-by-side boxplot, it is clear that the men's division has
+# has faster marathon times compared to the women's division with the exception
+# of a few outliers.
+
+## Part C
+# The boxplot from part B has the division and its colors listed twice. This
+# information is listed in both  the x-axis of the graph and in the legends.
+
+# Boxplot with legends removed
+ggplot(nyc_clean, aes(y = time, x = division, fill = division)) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("blue", "red")) +
+  ggtitle("Boxplot Of Marathon Times Between Divisions") +
+  theme(legend.position = "none",
+        axis.ticks.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank())
+
+## Part D
+# Plot the marathon times over the years with distinction of divisions
+ggplot(nyc_clean, aes(x = year, y = time, color = division, shape = division)) +
+  geom_point() + 
+  scale_color_manual(values = c("blue", "red")) +
+  ggtitle("Marathon Times Of Men And Women Over The Years")
+  # geom_line(data = nyc_clean[which(nyc_clean$division == "Men"),],
+  #           aes(y = time, x = year), color = "blue") +
+  # geom_line(data = nyc_clean[-which(nyc_clean$division == "Men"),],
+  #           aes(y = time, x = year), color = "red") +
+
+# The plot of marathon times across the years between division uniquely
+# indicates that the marathon times have roughly stabilized since 1977.
+# Additionally, the time gap between divisions seemed to be consistent.
 ```
 
 ## 3 - US counties
+### Part A
 
+### Part B
+
+### Part C
 
 ## 4 - Rental apartments in SF
 
+```{r label-me-4}
+
+```
+
 
 ## 5 - Napoleon’s march.
+
+```{r label-me-5}
+
+```
